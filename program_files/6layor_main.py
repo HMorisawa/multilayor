@@ -47,9 +47,24 @@ def GoCal(material,WL,inangle,t_real,Pol):
     elif material==5:
         file_material='Sapphire w/ arb.(gap)'
         n = [1.833, 1.8, 1.833, 0.21+3.14j, 1.833, 1.33] 
-    else:
+    elif material==6:
         file_material='Sapphire w/ Water-gap'
         n = [1.833, 1.33, 1.833, 0.21+3.14j, 1.833, 1.33] 
+    elif material==7:
+        file_material='Sapphire w/ air w/ gold'
+        n = [1.833, 0.21+3.14j, 1.36+1.7815j, 1., 1., 1.]
+    elif material==8:
+        file_material='Sapphire w/ air w/ Pt'
+        n = [1.833, 0.21+3.14j, 1.1704+2.4384j, 1., 1., 1.]
+    elif material==9:
+        file_material='Sapphire w/ air w/ Pt'
+        n = [1.523, 0.21+3.14j, 1.523, 1., 1., 1.]
+    elif material==10:
+        file_material='Sapphire w/ air w/ Pt'
+        n = [1.523, 0.21+3.14j, 1., 1, 1., 1.]
+    elif material==11:
+        file_material='Sapphire w/ water'
+        n = [1.833, 0.21+3.14j, 1.833, 1.5, 1.5, 1.5] 
 
     k=zeros(6,dtype=complex)
     kvac=2*pi/WL        # 真空中の波数
@@ -75,12 +90,12 @@ def GoCal(material,WL,inangle,t_real,Pol):
     t1points=500       # プロット数
     t1Deg = linspace(t1start,t1end,t1points) # 入射角 t1 の配列の生成
     for i in range(t1points):
-        getPol=pol(n,k,t,Pol,t1Deg[i],20)
+        getPol=pol(n,k,t,Pol,t1Deg[i],t_real[0]+t_real[1]) #電場はアルミナ面を見ている（real[0]+t_real[1]）
         anglex=np.append(anglex,t1Deg[i])
         refy=np.append(refy,getPol[0]) 
         tray=np.append(tray,getPol[1])
         absy=1-refy-tray
-        EFI_main=np.append(EFI_main,getPol[2][5])   
+        EFI_main=np.append(EFI_main,getPol[2][2]) #getPol[2][i], i=0:in prism, i=1:in Aluminum, i=2:in Alumina
     
     plot_m2.plot_intensity(anglex, refy, tray, absy) #ref, tra, abの描画
 
@@ -122,7 +137,7 @@ def GoCal(material,WL,inangle,t_real,Pol):
         EFI5=np.append(EFI5,getPol[2][5])
   
     plot_m2.plot_EFdir(material, inangle, z0dir,EFI0,z1dir,EFI1,z2dir,EFI2,z3dir,EFI3,z4dir,EFI4,z5dir,EFI5)   #グラフ描画
-    #plot_m2.plot_EFdir_w(material, inangle, z0dir,EFI0,z1dir,EFI1,z2dir,EFI2,z3dir,EFI3,z4dir,EFI4,z5dir,EFI5) #グラフ描画+グラフ保存
+    plot_m2.plot_EFdir_w(material, inangle, z0dir,EFI0,z1dir,EFI1,z2dir,EFI2,z3dir,EFI3,z4dir,EFI4,z5dir,EFI5) #グラフ描画+グラフ保存
 
     #outfile2.out_EFdir(file_material, anglex, t_real, z0dir, EFI0, z1dir, EFI1, z2dir, EFI2, z3dir, EFI3, z4dir, EFI4, z5dir, EFI5)
 
@@ -203,10 +218,10 @@ def Calc_EFI_dir_w(material, WL, inangle, t_real):
     return 0
 
 def main():
-    material=3         #(1=SiO w/ air, 2=SiO w/ water, 3=Sapphire w/ air, 4=Sapphire w/ water, 5=Sapphire w/ arb.(gap), 6=Sapphire w/ Water-gap)
+    material=4         #(1=SiO w/ air, 2=SiO w/ water, 3=Sapphire w/ air, 4=Sapphire w/ water, 5=Sapphire w/ arb.(gap), 6=Sapphire w/ Water-gap)
     WL=266            # 真空中の波長 WL〔nm〕
-    inangle=38          #距離依存を出すときの入射角度の指定
-    t_real = [21, 6, 21, 5] #膜厚[Al,Al3O3,誘電体,誘電体（任意＊誘電体に関して初期は水にしています）]
+    inangle=58        #距離依存を出すときの入射角度の指定
+    t_real = [21, 6, 1, 100] #膜厚[Al,Al3O3,誘電体,誘電体（任意＊誘電体に関して初期は水にしています）]
     Pol='P' #polarization of light
     
     GoCal(material,WL,inangle,t_real,Pol)

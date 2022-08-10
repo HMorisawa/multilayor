@@ -5,27 +5,29 @@ def plot_intensity(anglex, refy, tray, absy):
     plot(anglex,refy, label="Reflectance")
     plot(anglex,tray, label="Transmittance")
     plot(anglex,absy, label="Absorptance")
-    xlabel(r"Angle (deg.)",fontsize=20)   # x 軸のラベル
-    ylabel(r"Intensity (a.u.)",fontsize=20)              # y 軸のラベル
+    xlabel(r"Angle (deg.)",fontsize=15)   # x 軸のラベル
+    ylabel(r"Intensity (a.u.)",fontsize=15)              # y 軸のラベル
     #title("Reflectance",fontsize=20)          # グラフタイトル
     grid(True)    # グリッドを表示
     plt.xlim(30, 90)
     plt.ylim(0, 1)    
     legend(fontsize=10,loc='center left')            # 凡例の表示とフォントサイズ
-    plt.tick_params(labelsize=18)  # 軸の目盛表示とフォントサイズの指定
+    plt.tick_params(labelsize=15)  # 軸の目盛表示とフォントサイズの指定
+    plt.savefig('Intensity.png')
     show()                                    # グラフを表示 
     return 0
 
 def plot_EFangle(anglex, EFI_main):
     plot(anglex,EFI_main, label="EFI")
-    xlabel(r"Angle (deg.)",fontsize=20)   # x 軸のラベル
-    ylabel(r"Intensity (a.u.)",fontsize=20)              # y 軸のラベル
-    title("Electric field intensity",fontsize=20)          # グラフタイトル
+    xlabel(r"Angle (deg.)",fontsize=15)   # x 軸のラベル
+    ylabel(r"Intensity (a.u.)",fontsize=15)              # y 軸のラベル
+    title("Electric field intensity",fontsize=15)          # グラフタイトル
     grid(True)    # グリッドを表示
     plt.xlim(30, 90)
     #plt.ylim(0, 1)    
     #legend(fontsize=10,loc='upper left')            # 凡例の表示とフォントサイズ
-    plt.tick_params(labelsize=18)  # 軸の目盛表示とフォントサイズの指定
+    plt.tick_params(labelsize=15)  # 軸の目盛表示とフォントサイズの指定
+    plt.savefig('EF_intensity.png')
     show()                                    # グラフを表示
     return 0
 
